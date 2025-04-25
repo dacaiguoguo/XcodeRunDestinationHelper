@@ -59,7 +59,7 @@ int main(int argc, const char * argv[]) {
         NSMutableArray<NSString *> *pathArray = [NSMutableArray array];
         int ret = 0;
         // TODO: xcodebuild -showsdks -json 获取 "platform" : "iphonesimulator" 的版本号 作为参数
-        logDefaultDevices(@"iOS-18-0");
+        logDefaultDevices(@"iOS-18-4");
         NSString *simulatorPlistPath = plistFilePathWithName(@"iphonesimulator");
         [pathArray addObject:simulatorPlistPath];
 
@@ -80,7 +80,7 @@ int main(int argc, const char * argv[]) {
         // 设置模拟器边框颜色
         NSMutableDictionary<NSString *,NSMutableDictionary<NSString *, NSString *> *> *devicePreferences = simulatorPlistInfo[@"DevicePreferences"];
         [devicePreferences enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSMutableDictionary<NSString *,NSString *> *obj, BOOL *stop) {
-            obj[@"ChromeTint"] = @"#22ca92"; //simulator color
+            obj[@"ChromeTint"] = @"#ABD1D1"; //simulator color 22ca92
         }];
 
         // 把修改过的模拟器配置写入文件
@@ -105,10 +105,10 @@ int main(int argc, const char * argv[]) {
         }
 
         // 删除不可用的模拟器
-        ret = system("xcrun simctl delete unavailable");
-        if (ret != 0) {
-            exitWithStatusAndPathArray(ret, pathArray);
-        }
+//        ret = system("xcrun simctl delete unavailable");
+//        if (ret != 0) {
+//            exitWithStatusAndPathArray(ret, pathArray);
+//        }
 
         // 获取模拟器列表
         NSString *jsonPath = logFilePathWithNameAndExt(@"devices", @"json");
@@ -136,7 +136,8 @@ int main(int argc, const char * argv[]) {
         }
 
         // 需要保留的、显示为运行目标的集合， 可以是名字，也可以是id
-        NSSet *keepSet = [NSSet setWithObjects:@"iPhone 15 Pro", @"iPhone SE (3rd generation)", @"iPhone 15 Pro Max", nil];
+        NSSet *keepSet = [NSSet setWithObjects:@"iPhone 16 Pro", @"iPhone SE (3rd generation)", @"iPhone 16 Pro Max", nil];
+
 
         __block BOOL settingsChanged = NO;
         // 修改忽略列表和可见性设置
